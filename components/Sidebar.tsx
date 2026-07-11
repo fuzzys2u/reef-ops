@@ -6,7 +6,7 @@ import { useStore } from "@/lib/store";
 import { inBiz } from "@/lib/data";
 import { dict } from "@/lib/i18n";
 
-export default function Sidebar() {
+export default function Sidebar({ open = false, onClose }: { open?: boolean; onClose?: () => void }) {
   const pathname = usePathname();
   const { bookings, biz, lang } = useStore();
   const t = dict[lang];
@@ -21,7 +21,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${open ? " open" : ""}`}>
       <div className="brand">
         <div className="brand-mark">
           <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,13 +33,18 @@ export default function Sidebar() {
           <div className="brand-name">Reef</div>
           <div className="brand-sub">Operations</div>
         </div>
+        <button className="nav-close" onClick={onClose} aria-label="Close menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
       <div className="nav-label">{t.workspace}</div>
       {NAV.map((n) => {
         const active = pathname === n.href;
         return (
-          <Link key={n.href} href={n.href} className={`nav-item${active ? " active" : ""}`}>
+          <Link key={n.href} href={n.href} className={`nav-item${active ? " active" : ""}`} onClick={onClose}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               {n.icon}
             </svg>

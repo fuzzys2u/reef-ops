@@ -5,7 +5,7 @@ import { useStore } from "@/lib/store";
 import { BizFilter } from "@/lib/data";
 import { dict, Lang } from "@/lib/i18n";
 
-export default function Topbar() {
+export default function Topbar({ onMenu }: { onMenu?: () => void }) {
   const { biz, setBiz, lang, setLang } = useStore();
   const router = useRouter();
   const t = dict[lang];
@@ -22,6 +22,11 @@ export default function Topbar() {
 
   return (
     <header className="topbar">
+      <button className="menu-btn" onClick={onMenu} aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 12h18M3 6h18M3 18h18" />
+        </svg>
+      </button>
       <div className="switcher">
         {segs.map((s) => (
           <div
@@ -65,7 +70,7 @@ export default function Topbar() {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 5v14M5 12h14" />
           </svg>
-          {t.new_booking}
+          <span className="lbl">{t.new_booking}</span>
         </button>
       </div>
     </header>
